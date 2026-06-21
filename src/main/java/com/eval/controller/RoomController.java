@@ -29,7 +29,7 @@ public class RoomController {
     @PutMapping("/{id}")
     public ResponseEntity<Room> updateAvailability(
             @PathVariable Long id,
-            @RequestParam Boolean available) {
-        return ResponseEntity.ok(roomService.updateAvailability(id, available));
+            @RequestBody java.util.Map<String, Boolean> body) {
+        return ResponseEntity.ok(roomService.updateAvailability(id, body.get("available")));
     }
 }

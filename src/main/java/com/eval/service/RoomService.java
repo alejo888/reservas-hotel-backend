@@ -19,7 +19,7 @@ public class RoomService {
 
     public Room save(Room room){
         if(roomRepository.existsByNumber(room.getNumber())){
-            throw new RuntimeException("Room number already exists");
+            throw new RuntimeException("El número de habitación ya existe");
         }
 
         room.setAvailable(true);
@@ -27,7 +27,7 @@ public class RoomService {
     }
 
     public Room updateAvailability(Long id, Boolean available){
-        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room id not found"));
+        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Habitación no encontrada"));
         room.setAvailable(available);
         return roomRepository.save(room);
     }

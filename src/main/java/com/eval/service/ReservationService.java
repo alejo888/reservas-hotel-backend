@@ -23,21 +23,21 @@ public class ReservationService {
     public Reservation save(Reservation reservation){
         if(reservation.getCheckOutDate().isBefore(reservation.getCheckInDate()) ||
                 reservation.getCheckOutDate().isEqual(reservation.getCheckInDate())){
-            throw new RuntimeException("Check-out must be after check-in");
+            throw new RuntimeException("La fecha de check-out debe ser posterior al check-in");
         }
 
         Room room = roomRepository.findById(reservation.getRoom().getId())
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+                .orElseThrow(() -> new RuntimeException("Habitación no encontrada"));
 
         if(!room.getAvailable()){
-            throw new RuntimeException("Room is not available");
+            throw new RuntimeException("La habitación no está disponible");
         }
 
         if(reservationRepository.existsConflict(
                 room.getId(),
                 reservation.getCheckInDate(),
                 reservation.getCheckOutDate())){
-            throw new RuntimeException("Room has a conflicting reservation");
+            throw new RuntimeException("La habitación tiene una reserva en conflicto");
         }
 
         room.setAvailable(false);
